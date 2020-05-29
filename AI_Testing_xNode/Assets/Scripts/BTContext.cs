@@ -6,13 +6,15 @@ using UnityEngine.AI;
 [Serializable]
 public class BTContext
 {
-    public NavMeshAgent navAgent;
+    public NavMeshAgent agent;
     public AIComponent contextOwner;
+    public Transform transform;
     public List<string> behaviourHistory = new List<string>();
 
-    public BTContext(NavMeshAgent _navAgent, AIComponent _owner)
+    public BTContext(NavMeshAgent navAgent, AIComponent owner, Transform ownerTransform)
     {
-        navAgent = _navAgent;
-        contextOwner = _owner;
+        agent = navAgent;
+        contextOwner = owner;
+        transform = ownerTransform;
     }
 }

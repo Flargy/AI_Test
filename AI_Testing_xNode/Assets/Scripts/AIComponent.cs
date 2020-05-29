@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class AIComponent : MonoBehaviour
 {
     public BehaviourTreeType behaviourTreeType;
+    public GameObject target;
 
     internal AIState currentState = AIState.SEARCHING;
 
@@ -16,7 +17,7 @@ public class AIComponent : MonoBehaviour
     {
         navAgent = GetComponent<NavMeshAgent>();
 
-        aiContext = new BTContext(navAgent, this);
+        aiContext = new BTContext(navAgent, this, transform);
     }
 
     private void Start()

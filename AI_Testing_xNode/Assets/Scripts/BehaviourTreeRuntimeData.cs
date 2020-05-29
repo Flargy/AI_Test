@@ -6,48 +6,48 @@ public static class BehaviourTreeRuntimeData
     static Dictionary<BehaviourTreeType, List<BTContextData>> contextMap = new Dictionary<BehaviourTreeType, List<BTContextData>>();
 
 
-    public static void RegisterBehaviourTree(RuntimeBehaviourTree _behaviourTree)
+    public static void RegisterBehaviourTree(RuntimeBehaviourTree runtimeTree)
     {
-        behaviourTreeMap[_behaviourTree.behaviourTreeType] = _behaviourTree;
+        behaviourTreeMap[runtimeTree.behaviourTreeType] = runtimeTree;
     }
 
-    public static void RegisterAgentContext(BehaviourTreeType _behaviourTreeType, BTContext _aiContext)
+    public static void RegisterAgentContext(BehaviourTreeType behaviourType, BTContext aiContext)
     {
-        if (!contextMap.ContainsKey(_behaviourTreeType))
+        if (!contextMap.ContainsKey(behaviourType))
         {
-            contextMap[_behaviourTreeType] = new List<BTContextData>();
+            contextMap[behaviourType] = new List<BTContextData>();
         }
 
-        contextMap[_behaviourTreeType].Add(new BTContextData(_aiContext));
+        contextMap[behaviourType].Add(new BTContextData(aiContext));
     }
 
-    public static void UnregisterAgentContext(BehaviourTreeType _behaviourTreeType, BTContext _aiContext)
+    public static void UnregisterAgentContext(BehaviourTreeType behaviourType, BTContext aiContext)
     {
-        if (contextMap.ContainsKey(_behaviourTreeType))
+        if (contextMap.ContainsKey(behaviourType))
         {
-            BTContextData data = contextMap[_behaviourTreeType].Find(x => x.owningContext == _aiContext);
+            BTContextData data = contextMap[behaviourType].Find(x => x.owningContext == aiContext);
             if (data != null)
             {
-                contextMap[_behaviourTreeType].Remove(data);
+                contextMap[behaviourType].Remove(data);
             }
         }
     }
 
-    public static void AddRunningNode(BTContext _context, BTNode _node)
+    public static void AddRunningNode(BTContext nodeContext, BTNode node)
     {
-        BTContextData data = contextMap[_context.contextOwner.behaviourTreeType].Find(x => x.owningContext == _context);
+        BTContextData data = contextMap[nodeContext.contextOwner.behaviourTreeType].Find(x => x.owningContext == nodeContext);
         if (data != null)
         {
-            data.AddRunningNode(_node);
+            data.AddRunningNode(node);
         }
     }
 
-    public static void RemoveRunningNode(BTContext _context, BTNode _node)
+    public static void RemoveRunningNode(BTContext nodeContext, BTNode node)
     {
-        BTContextData data = contextMap[_context.contextOwner.behaviourTreeType].Find(x => x.owningContext == _context);
+        BTContextData data = contextMap[nodeContext.contextOwner.behaviourTreeType].Find(x => x.owningContext == nodeContext);
         if (data != null)
         {
-            data.RemoveRunningNode(_node);
+            data.RemoveRunningNode(node);
         }
     }
 

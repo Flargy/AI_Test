@@ -18,18 +18,18 @@ public class BTContextData
         }
     }
 
-    public void RemoveRunningNode(BTNode _node)
+    public void RemoveRunningNode(BTNode nodeToRemove)
     {
-        runningNodes.Remove(_node);
+        runningNodes.Remove(nodeToRemove);
     }
 
-    public bool HasRunningNodes(out BTNode _runningNode)
+    public bool HasRunningNodes(out BTNode runningNode)
     {
-        _runningNode = null;
+        runningNode = null;
 
         if (runningNodes.Count != 0)
         {
-            _runningNode = runningNodes[0];
+            runningNode = runningNodes[0];
             return true;
         }
         else return false;

@@ -10,14 +10,15 @@ public class BTSelector : BTNode
 
     public override BTResult Execute()
     {
+
         NodePort inPort = GetPort("inResults");
         if (inPort != null)
         {
             List<NodePort> connections = inPort.GetConnections();
 
-            foreach (NodePort _port in connections)
+            foreach (NodePort port in connections)
             {
-                BTResult result = (BTResult)_port.GetOutputValue();
+                BTResult result = (BTResult)port.GetOutputValue();
                 if (result == BTResult.SUCCESS)
                 {
                     return BTResult.SUCCESS;

@@ -16,7 +16,7 @@ public class BTSubTree : BTNode
 
     public override BTResult Execute()
     {
-        if (!isValid)
+        if (isValid == false)
         {
             return BTResult.FAILURE;
         }

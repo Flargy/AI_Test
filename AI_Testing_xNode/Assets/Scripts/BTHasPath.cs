@@ -8,10 +8,9 @@ public class BTHasPath : BTNode
 
     public override BTResult Execute()
     {
-
         BTResult result = BTResult.FAILURE;
 
-        if (context.navAgent.hasPath)
+        if (context.agent.hasPath)
         {
             result = BTResult.SUCCESS;
         }

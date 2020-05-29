@@ -7,7 +7,7 @@ using XNode;
 public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
 {
     Dictionary<BehaviourTreeType, RuntimeBehaviourTree> behaviourTreeMap;
-    Dictionary<BehaviourTreeType, List<BTContextData>> contextMap;
+    Dictionary<BehaviourTreeType, List<BTContextData>> contextDataMap;
 
     bool behaviourTreeStarting = true;
 
@@ -17,7 +17,7 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
     private void Start()
     {
         behaviourTreeMap = BehaviourTreeRuntimeData.GetBehaviourTrees();
-        contextMap = BehaviourTreeRuntimeData.GetContextData();
+        contextDataMap = BehaviourTreeRuntimeData.GetContextData();
     }
 
     private void Update()
@@ -34,12 +34,12 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
             ClearAgentHistory();
 #endif
             updateTimer = 0;
-            RunAllAgents();
+            StartAgents();
         }
         else updateTimer += Time.deltaTime;
     }
 
-    private void RunAllAgents()
+    private void StartAgents()
     {
         for(int i = 0; i < (int)BehaviourTreeType.COUNT; i++)
         {
@@ -47,9 +47,9 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
 
             if (behaviourTreeMap.ContainsKey(treeType))
             {
-                if (contextMap.ContainsKey(treeType))
+                if (contextDataMap.ContainsKey(treeType))
                 {
-                    contextMap[treeType].ForEach(x => behaviourTreeMap[treeType].RunBehaviourTree(x));
+                    contextDataMap[treeType].ForEach(x => behaviourTreeMap[treeType].RunBehaviourTree(x));
                 }
             }
         }
@@ -64,9 +64,9 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
 
             if (behaviourTreeMap.ContainsKey(treeType))
             {
-                if (contextMap.ContainsKey(treeType))
+                if (contextDataMap.ContainsKey(treeType))
                 {
-                    contextMap[treeType].ForEach(x => x.owningContext.behaviourHistory.Clear());
+                    contextDataMap[treeType].ForEach(x => x.owningContext.behaviourHistory.Clear());
                 }
             }
         }
@@ -86,11 +86,11 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
         }
     }
 
-    private void InitializeTreeNodes(List<Node> _nodeList)
+    private void InitializeTreeNodes(List<Node> nodeList)
     {
-        foreach (Node _node in _nodeList)
+        foreach (Node node in nodeList)
         {
-            BTNode btNode = (BTNode)_node;
+            BTNode btNode = (BTNode)node;
             if (btNode != null)
             {
                 if (btNode is BTSubTree)
@@ -107,9 +107,9 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
     {
         List<BTContextData> dataList = new List<BTContextData>();
 
-        foreach (KeyValuePair<BehaviourTreeType, List<BTContextData>> _kvp in contextMap)
+        foreach (KeyValuePair<BehaviourTreeType, List<BTContextData>> keyPair in contextDataMap)
         {
-            _kvp.Value.ForEach(x => dataList.Add(x));
+            keyPair.Value.ForEach(x => dataList.Add(x));
         }
 
         return dataList;

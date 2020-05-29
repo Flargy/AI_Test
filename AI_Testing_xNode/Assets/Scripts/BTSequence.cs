@@ -16,9 +16,9 @@ public class BTSequence : BTNode
         {
             List<NodePort> connections = inPort.GetConnections();
 
-            foreach (NodePort _port in connections)
+            foreach (NodePort port in connections)
             {
-                BTResult result = (BTResult)_port.GetOutputValue();
+                BTResult result = (BTResult)port.GetOutputValue();
                 if(result == BTResult.FAILURE)
                 {
                     return BTResult.FAILURE;
