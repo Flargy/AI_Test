@@ -10,11 +10,7 @@ public class BTCanSeePlayer : BTNode
 
     public override BTResult Execute()
     {
-        int layerMask = 1 << 0;
-        RaycastHit hit;
-
-
-        if(Physics.Raycast(context.transform.position, context.contextOwner.target.transform.position - context.transform.position, out hit, 20, layerMask))
+        if(context.contextOwner.playerFound == true)
         {
             return BTResult.SUCCESS;
         }
