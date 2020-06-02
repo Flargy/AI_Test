@@ -15,7 +15,7 @@ public class AIComponent : MonoBehaviour
     BTContext aiContext;
     public AISensor sensor;
 
-    public Vector3[] hidingSpotsType1;
+    public Transform[] hidingSpots;
     public Vector3[] patrolPoints;
 
     [HideInInspector] public Vector3 alertLocation;
@@ -28,7 +28,7 @@ public class AIComponent : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
 
         aiContext = new BTContext(navAgent, this, transform, target);
-        internalHidingSpots = new HidingSpot[hidingSpotsType1.Length];
+        internalHidingSpots = new HidingSpot[hidingSpots.Length];
     }
 
     private void Start()
@@ -36,9 +36,9 @@ public class AIComponent : MonoBehaviour
         sensor.Initialize(this, navAgent);
         BehaviourTreeRuntimeData.RegisterAgentContext(behaviourTreeType, aiContext);
 
-        for(int i = 0; i < hidingSpotsType1.Length; i++)
+        for(int i = 0; i < hidingSpots.Length; i++)
         {
-            internalHidingSpots[i] = new HidingSpot(1, hidingSpotsType1[i]);
+            internalHidingSpots[i] = new HidingSpot(1, hidingSpots[i].position);
         }
     }
 

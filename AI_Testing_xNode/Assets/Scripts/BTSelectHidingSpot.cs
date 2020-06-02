@@ -7,16 +7,26 @@ using UnityEngine;
 [BTAgent(typeof(BTSelectHidingSpot))]
 public class BTSelectHidingSpot : BTNode
 {
-    int totalsum = 0;
+    
     public override BTResult Execute()
     {
-        GetRandom();
+        if (context.agent.pathPending == false && context.agent.hasPath == false)
+        {
+            Debug.Log("getting new spot");
+            HidingSpot targetSpot = GetRandom();
+
+            context.agent.SetDestination(targetSpot.position);
+
+            return BTResult.SUCCESS;
+        }
+        return BTResult.FAILURE;
     }
 
 
     // Hämtar ett gömställe utifrån gömställenas sanorlikhet att bli vald
     public HidingSpot GetRandom()
     {
+        int totalsum = 0;
         foreach (HidingSpot spot in context.contextOwner.internalHidingSpots)
         {
             totalsum += spot.probability;

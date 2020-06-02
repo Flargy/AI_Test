@@ -8,18 +8,20 @@ public class BTHasPath : BTNode
 
     public override BTResult Execute()
     {
-        BTResult result = BTResult.FAILURE;
 
-        if (context.agent.hasPath)
+
+        if (context.agent.pathPending == false && context.agent.hasPath)
         {
-            result = BTResult.SUCCESS;
+
+            return BTResult.SUCCESS;
         }
         else
         {
-            result = BTResult.FAILURE;
+           
+            return BTResult.FAILURE;
         }
 
-        return result;
+     
     }
 
 }

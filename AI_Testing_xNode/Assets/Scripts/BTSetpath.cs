@@ -20,7 +20,7 @@ public class BTSetpath : BTNode
 
     private void SetNewDestination()
     {
-        Vector3 movement = new Vector3(10, 0, 0);
+        Vector3 movement = new Vector3(15, 0, 0);
         context.agent.SetDestination(context.agent.gameObject.transform.position + movement);
     }
 }
