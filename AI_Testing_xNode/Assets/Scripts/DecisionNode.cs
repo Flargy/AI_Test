@@ -43,7 +43,7 @@ public enum TypeOfObject
 {
     REDCUBE,
     BLUESPHERE,
-    YELLOWCONE,
+    YELLOWSYLINDER,
     PLACE,  // Används för en generell plats
     ROOT    // Används för att ge roten ett typvärde
 }
