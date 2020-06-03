@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -9,6 +8,7 @@ public class PlaceCreator : MonoBehaviour
     private BoxCollider col;
 
     public LayerMask HidingLayer;
+    public static PlaceCreator Intance = null;
 
     [SerializeField] GameObject Place;
     [SerializeField] int numOfXParts;
@@ -19,6 +19,15 @@ public class PlaceCreator : MonoBehaviour
     private List<BoxCollider> places = new List<BoxCollider>();
     private void Awake()
     {
+        if(Intance == null)
+        {
+            Intance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         col = GetComponent<BoxCollider>();
     }
 
@@ -67,24 +76,28 @@ public class PlaceCreator : MonoBehaviour
         Tree = new DecisionTree();
         foreach (BoxCollider place in places)
         {
-            
-            DecisionNode node = DecisionNode.CreateChild(Tree.RootNode, null, TypeOfObject.PLACE);
+            HidingSpot placeSpot = place.transform.GetComponent<HidingSpot>();
+
+            placeSpot.ID = placeSpot.name.GetHashCode();
+            DecisionNode node = DecisionNode.CreateChild(Tree.RootNode, placeSpot, TypeOfObject.PLACE);
             Collider[] hidingSpots = Physics.OverlapBox(place.bounds.center, place.bounds.size / 2, Quaternion.identity, HidingLayer);
 
             foreach(Collider spot in hidingSpots)
             {
-                DecisionNode newSpot = DecisionNode.CreateChild(node, spot.GetComponent<HidingSpot>(), TypeOfObject.PLACE);
+                HidingSpot hSpot = spot.GetComponent<HidingSpot>();
+                hSpot.ID = hSpot.transform.position.GetHashCode();
+                DecisionNode newSpot = DecisionNode.CreateChild(node, hSpot, TypeOfObject.PLACE);
                 //node.Children.Add(newSpot);
-                print("ADD CHILD");
+                print("ADD CHILD " + spot.name + " in place " + node.Spot.name);
 
             }
         }
 
-        print(Tree.RootNode);
-        print(Tree.ToString());
+        //print(Tree.RootNode);
+        //print(Tree.ToString());
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         foreach(BoxCollider col in places)
@@ -108,27 +121,14 @@ public class PlaceCreator : MonoBehaviour
     // Källa: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
 
 
-    //public HidingSpot GetRandom()
-    //{
-    //    int totalsum = 0;
-    //    foreach (HidingSpot spot in context.contextOwner.internalHidingSpots)
-    //    {
-    //        totalsum += spot.probability;
-    //    }
+    public HidingSpot GetNextHidingSpot()
+    {
+        DecisionNode place = Tree.RootNode.GetNodeOfHighestProbability();
+        print("place " + place.Spot.name);
 
-    //    // Hämtar ett slumpmässing värde från 0 till totalsum-1
-    //    int index = UnityEngine.Random.Range(0, totalsum);
-    //    int sum = 0;
-    //    int i = 0;
+        HidingSpot spot = place.GetRandomHidingSpot();
+        return spot;
+    }
 
-    //    while (sum < index)
-    //    {
-    //        sum += context.contextOwner.internalHidingSpots[i].probability;
-    //        i++;
-    //    }
-
-    //    return context.contextOwner.internalHidingSpots[i];
-
-    //}
 
 }

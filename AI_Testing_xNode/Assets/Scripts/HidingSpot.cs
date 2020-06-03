@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XNode.Examples.MathNodes;
 
 public class HidingSpot : MonoBehaviour
 {
@@ -10,9 +11,14 @@ public class HidingSpot : MonoBehaviour
     public TypeOfObject type;
     public int ID;
 
-    public void UpdateProbability(int newProb)
+    public void UpdateProbability(Vector3 playerPostion)
     {
-        probability = newProb;
+        probability += (int)((playerPostion - this.transform.position).magnitude * 0.5f);
+    }
+
+    public void UpdateProbability(int addedProbability)
+    {
+        probability += addedProbability;
     }
 
     public void Start()
@@ -29,8 +35,7 @@ public class HidingSpot : MonoBehaviour
 
     public void LoadData()
     {
-        
-        UpdateProbability(PlayerPrefs.GetInt("HidingSpot" + ID));
+        probability = PlayerPrefs.GetInt("HidingSpot" + ID);
         
     }
 

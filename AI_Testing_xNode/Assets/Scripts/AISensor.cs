@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using System.Net.NetworkInformation;
 
 [Serializable]
 public class AISensor
@@ -11,7 +12,7 @@ public class AISensor
     public float stopSearchTime;
     public float visionAngle = 60;
     public float visionDistance = 20;
-
+    public float MAX_RADIUS = 2.5f;
     //internal Vector3 lastTargetPosition = Vector3.zero;
 
     NavMeshAgent agent;
@@ -45,6 +46,14 @@ public class AISensor
                 aiComponent.playerFound = true;
             }
 
+            Collider[] neabySpots = Physics.OverlapSphere(aiComponent.target.transform.position, MAX_RADIUS, PlaceCreator.Intance.HidingLayer);
+            PlaceCreator.Intance.Tree.GetDecisionNode(neabySpots[0].GetComponent<HidingSpot>()).Spot.UpdateProbability(1); // Ökar sanorlikheten för platsen
+
+            // Ökar snarolikheten för alla närliggande gömställen
+            foreach (Collider item in neabySpots)
+            {
+                item.GetComponent<HidingSpot>().UpdateProbability(aiComponent.target.transform.position);
+            }
         }
         else
         {

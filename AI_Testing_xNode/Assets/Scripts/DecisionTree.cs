@@ -23,4 +23,16 @@ public class DecisionTree
 
         return builder.ToString();
     }
+
+    public DecisionNode GetDecisionNode(HidingSpot hindingSpot)
+    {
+        foreach (DecisionNode node in RootNode.Children)
+        {
+            DecisionNode Cnode = node.GetChild(hindingSpot);
+            if (Cnode != null)
+                return Cnode;
+        }
+
+        return null;
+    }
 }

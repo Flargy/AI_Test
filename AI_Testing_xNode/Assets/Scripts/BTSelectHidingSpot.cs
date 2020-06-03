@@ -12,8 +12,10 @@ public class BTSelectHidingSpot : BTNode
     {
         if (context.agent.pathPending == false && context.agent.hasPath == false)
         {
-            Debug.Log("getting new spot");
-
+            HidingSpot spot = PlaceCreator.Intance.GetNextHidingSpot();
+            context.contextOwner.destination = spot.transform.position;
+            context.agent.SetDestination(spot.transform.position);
+            Debug.Log("getting new spot " + spot.name);
             //context.agent.SetDestination(targetSpot.position);
             //context.contextOwner.destination = targetSpot.position;
 
@@ -21,58 +23,4 @@ public class BTSelectHidingSpot : BTNode
         }
         return BTResult.FAILURE;
     }
-
-
-    // Hämtar ett gömställe utifrån gömställenas sanorlikhet att bli vald
-    //public HidingSpot GetRandom()
-    //{
-    //    int totalsum = 0;
-    //    foreach (HidingSpot spot in context.contextOwner.internalHidingSpots)
-    //    {
-    //        totalsum += spot.probability;
-    //    }
-
-    //    // Hämtar ett slumpmässing värde från 0 till totalsum-1
-    //    int index = UnityEngine.Random.Range(0, totalsum);
-    //    int sum = 0;
-    //    int i = 0;
-
-    //    while(sum < index)
-    //    {
-    //        sum += context.contextOwner.internalHidingSpots[i].probability;
-    //        i++;
-    //    }
-
-    //    return context.contextOwner.internalHidingSpots[i];
-
-    //}
 }
-
-
-
-//class RandomSelector
-//{
-//    List<Item> items = new List();
-//    Random rand = new Random();
-//    int totalSum = 0;
-
-//    RandomSelector()
-//    {
-//        for (Item item : items)
-//        {
-//            totalSum = totalSum + item.relativeProb;
-//        }
-//    }
-
-//    public Item getRandom()
-//    {
-
-//        int index = rand.nextInt(totalSum);
-//        int sum = 0;
-//        int i = 0;
-//        while (sum < index)
-//        {
-//            sum = sum + items.get(i++).relativeProb;
-//        }
-//        return items.get(Math.max(0, i - 1));
-//    }
