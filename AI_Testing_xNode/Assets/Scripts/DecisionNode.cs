@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DecisionNode
@@ -25,6 +24,11 @@ public class DecisionNode
             parent.Children.Add(newNode);
 
         return newNode;
+    }
+
+    public override string ToString()
+    {
+        return $"Position: {Position}, Type: {Type}"; 
     }
 }
 

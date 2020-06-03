@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Text;
 using UnityEngine;
 
 public class DecisionTree
@@ -12,8 +11,16 @@ public class DecisionTree
     }
 
 
-    //public string ToString()
-    //{
+    public override string ToString()
+    {
+        StringBuilder builder = new StringBuilder();
+        if (RootNode == null)
+            return "";
+        foreach(DecisionNode child in RootNode.Children)
+        {
+            builder.Append(child.ToString());
+        }
 
-    //}
+        return builder.ToString();
+    }
 }
