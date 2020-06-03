@@ -84,7 +84,7 @@ public class PlaceCreator : MonoBehaviour
         print(Tree.ToString());
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         foreach(BoxCollider col in places)
