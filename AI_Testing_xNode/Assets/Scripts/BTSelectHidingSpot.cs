@@ -13,7 +13,6 @@ public class BTSelectHidingSpot : BTNode
         if (context.agent.pathPending == false && context.agent.hasPath == false)
         {
             Debug.Log("getting new spot");
-            HidingSpot targetSpot = GetRandom();
 
             //context.agent.SetDestination(targetSpot.position);
             //context.contextOwner.destination = targetSpot.position;
@@ -25,28 +24,28 @@ public class BTSelectHidingSpot : BTNode
 
 
     // Hämtar ett gömställe utifrån gömställenas sanorlikhet att bli vald
-    public HidingSpot GetRandom()
-    {
-        int totalsum = 0;
-        foreach (HidingSpot spot in context.contextOwner.internalHidingSpots)
-        {
-            totalsum += spot.probability;
-        }
+    //public HidingSpot GetRandom()
+    //{
+    //    int totalsum = 0;
+    //    foreach (HidingSpot spot in context.contextOwner.internalHidingSpots)
+    //    {
+    //        totalsum += spot.probability;
+    //    }
 
-        // Hämtar ett slumpmässing värde från 0 till totalsum-1
-        int index = UnityEngine.Random.Range(0, totalsum);
-        int sum = 0;
-        int i = 0;
+    //    // Hämtar ett slumpmässing värde från 0 till totalsum-1
+    //    int index = UnityEngine.Random.Range(0, totalsum);
+    //    int sum = 0;
+    //    int i = 0;
 
-        while(sum < index)
-        {
-            sum += context.contextOwner.internalHidingSpots[i].probability;
-            i++;
-        }
+    //    while(sum < index)
+    //    {
+    //        sum += context.contextOwner.internalHidingSpots[i].probability;
+    //        i++;
+    //    }
 
-        return context.contextOwner.internalHidingSpots[i];
+    //    return context.contextOwner.internalHidingSpots[i];
 
-    }
+    //}
 }
 
 

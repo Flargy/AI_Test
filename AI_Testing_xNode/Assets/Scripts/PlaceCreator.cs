@@ -108,5 +108,27 @@ public class PlaceCreator : MonoBehaviour
     // Källa: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
 
 
+    //public HidingSpot GetRandom()
+    //{
+    //    int totalsum = 0;
+    //    foreach (HidingSpot spot in context.contextOwner.internalHidingSpots)
+    //    {
+    //        totalsum += spot.probability;
+    //    }
+
+    //    // Hämtar ett slumpmässing värde från 0 till totalsum-1
+    //    int index = UnityEngine.Random.Range(0, totalsum);
+    //    int sum = 0;
+    //    int i = 0;
+
+    //    while (sum < index)
+    //    {
+    //        sum += context.contextOwner.internalHidingSpots[i].probability;
+    //        i++;
+    //    }
+
+    //    return context.contextOwner.internalHidingSpots[i];
+
+    //}
 
 }
