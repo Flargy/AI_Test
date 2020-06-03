@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8650286279090195033}
   - component: {fileID: 2747050171427410668}
   - component: {fileID: 4024822547369318376}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HidingSpot_YELLOWCYLINDER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
