@@ -10,18 +10,26 @@ public class BTHasPath : BTNode
     {
 
 
-        if (context.agent.pathPending == false && context.agent.hasPath)
+        if (context.agent.hasPath)
         {
 
             return BTResult.SUCCESS;
         }
-        else
+        else if(DestinationIsInRange() || context.contextOwner.destination == Vector3.zero)
         {
            
             return BTResult.FAILURE;
         }
 
+        context.agent.SetDestination(context.contextOwner.destination);
+
+        return BTResult.SUCCESS;
      
+    }
+
+    public bool DestinationIsInRange()
+    {
+        return (context.contextOwner.destination - context.contextOwner.transform.position).sqrMagnitude < 2;
     }
 
 }

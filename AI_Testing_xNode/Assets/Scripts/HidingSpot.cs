@@ -14,5 +14,10 @@ public class HidingSpot
         position = pos;
     }
 
+    public void UpdateProbability(int newProb)
+    {
+        probability = newProb;
+    }
+
     
 }
