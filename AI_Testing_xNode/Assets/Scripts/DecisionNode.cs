@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class DecisionNode
@@ -10,7 +11,7 @@ public class DecisionNode
 
     public TypeOfObject Type { private set; get; }
 
-    private DecisionNode(DecisionNode parent, HidingSpot spot, TypeOfObject type)
+    public DecisionNode(DecisionNode parent, HidingSpot spot, TypeOfObject type)
     {
         Parent = parent;
         Spot = spot;
@@ -34,7 +35,14 @@ public class DecisionNode
 
     public override string ToString()
     {
-        return $"Position: {Spot}, Type: {Type}"; 
+        System.Text.StringBuilder builder = new StringBuilder();
+        if(Children != null)
+            foreach (DecisionNode child in Children)
+            {
+                builder.Append(child.ToString());
+            }
+
+        return builder.ToString() + $" Position: {Spot}, Type: {Type} "; 
     }
 }
 
