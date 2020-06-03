@@ -69,7 +69,7 @@ public class PlaceCreator : MonoBehaviour
         {
             
             DecisionNode node = DecisionNode.CreateChild(Tree.RootNode, null, TypeOfObject.PLACE);
-            Collider[] hidingSpots = Physics.OverlapBox(place.bounds.center, place.bounds.size, Quaternion.identity, HidingLayer);
+            Collider[] hidingSpots = Physics.OverlapBox(place.bounds.center, place.bounds.size / 2, Quaternion.identity, HidingLayer);
             print(hidingSpots.Length + " name: " + place.gameObject.name);
 
             foreach(Collider spot in hidingSpots)
