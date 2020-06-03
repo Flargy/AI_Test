@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HidingSpot
+public class HidingSpot : MonoBehaviour
 {
     public int probability = 1;
-    public Vector3 position = Vector3.zero;
+    //public Vector3 position = Vector3.zero;
     public bool visited = false;
-
-    public HidingSpot(int prob, Vector3 pos)
-    {
-        probability = prob;
-        position = pos;
-    }
+    public TypeOfObject type;
 
     public void UpdateProbability(int newProb)
     {

@@ -6,29 +6,35 @@ public class DecisionNode
     public DecisionNode Parent { private set; get; }
     public List<DecisionNode> Children { private set; get; }
 
-    public Vector3 Position { private set; get; }
+    public HidingSpot Spot { private set; get; }
 
     public TypeOfObject Type { private set; get; }
 
-    private DecisionNode(DecisionNode parent, Vector3 position, TypeOfObject type)
+    private DecisionNode(DecisionNode parent, HidingSpot spot, TypeOfObject type)
     {
         Parent = parent;
-        Position = position;
+        Spot = spot;
         Type = type;
     }
 
-    public static DecisionNode CreateChild(DecisionNode parent, Vector3 pos, TypeOfObject type)
+    public static DecisionNode CreateChild(DecisionNode parent, HidingSpot spot, TypeOfObject type)
     {
-        DecisionNode newNode = new DecisionNode(parent, pos, type);
-        if(parent != null)
-            parent.Children.Add(newNode);
+        DecisionNode newNode = new DecisionNode(parent, spot, type);
 
-        return newNode;
+        if(parent != null)
+        {
+            if (parent.Children == null)
+                parent.Children = new List<DecisionNode>();
+            parent.Children.Add(newNode);
+            return newNode;
+
+        }
+        return null;
     }
 
     public override string ToString()
     {
-        return $"Position: {Position}, Type: {Type}"; 
+        return $"Position: {Spot}, Type: {Type}"; 
     }
 }
 

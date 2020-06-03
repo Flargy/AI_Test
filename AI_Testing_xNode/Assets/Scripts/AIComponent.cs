@@ -37,10 +37,10 @@ public class AIComponent : MonoBehaviour
         sensor.Initialize(this, navAgent);
         BehaviourTreeRuntimeData.RegisterAgentContext(behaviourTreeType, aiContext);
 
-        for(int i = 0; i < hidingSpots.Length; i++)
-        {
-            internalHidingSpots[i] = new HidingSpot(1, hidingSpots[i].position);
-        }
+        //for(int i = 0; i < hidingSpots.Length; i++)
+        //{
+        //    internalHidingSpots[i] = new HidingSpot(1, hidingSpots[i].position);
+        //}
     }
 
     public Vector3 GetPosition()
