@@ -22,6 +22,7 @@ public class AIComponent : MonoBehaviour
     [HideInInspector] public bool alerted = false;
     [HideInInspector] public Vector3 lastKnownPosition = Vector3.zero;
     [HideInInspector] public HidingSpot[] internalHidingSpots;
+    [HideInInspector] public Vector3 destination = Vector3.zero;
 
     private void Awake()
     {
@@ -50,12 +51,36 @@ public class AIComponent : MonoBehaviour
     public void Update()
     {
         sensor.Update();
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SaveData();
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadData();
+        }
     }
 
     public void Alert(Vector3 location)
     {
         alertLocation = location;
         alerted = false;
+    }
+
+    public void SaveData()
+    {
+        for(int i = 0; i < internalHidingSpots.Length; i++)
+        {
+            PlayerPrefs.SetInt("HidingSpot" + i, internalHidingSpots[i].probability);
+        }
+    }
+
+    public void LoadData()
+    {
+        for (int i = 0; i < internalHidingSpots.Length; i++)
+        {
+            internalHidingSpots[i].UpdateProbability(PlayerPrefs.GetInt("HidingSpot" + i));
+        }
     }
 
 }

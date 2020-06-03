@@ -16,6 +16,7 @@ public class BTSelectHidingSpot : BTNode
             HidingSpot targetSpot = GetRandom();
 
             context.agent.SetDestination(targetSpot.position);
+            context.contextOwner.destination = targetSpot.position;
 
             return BTResult.SUCCESS;
         }
