@@ -19,7 +19,7 @@ public class PlayerScript : MonoBehaviour
         foreach (HidingSpot spot in PlaceCreator.Instance.HidingSpots)
         {
 
-            totalsum += spot.playerProbability;
+            totalsum += spot.PlayerProbability;
         }
 
         // Hämtar ett slumpmässing värde från 0 till totalsum-1
@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour
 
         while (sum < index)
         {
-            sum += PlaceCreator.Instance.HidingSpots[i + 1].playerProbability;
+            sum += PlaceCreator.Instance.HidingSpots[i + 1].PlayerProbability;
             i++;
         }
 

@@ -5,19 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class PlaceCreator : MonoBehaviour
 {
+    public static PlaceCreator Instance = null;
+    public DecisionTree Tree { private set; get; }
+    public LayerMask HidingLayer;
+    public List<HidingSpot> HidingSpots { private set; get; }
+    [SerializeField] private GameObject Place;
+    [SerializeField] private int numOfXParts; // The number of places in the X-axis
+    [SerializeField] private int numOfZParts; // The number of places in the Z-axis
+    private List<BoxCollider> places = new List<BoxCollider>();
     private BoxCollider col;
 
-    public LayerMask HidingLayer;
-    public static PlaceCreator Instance = null;
-    public List<HidingSpot> HidingSpots = null;
-
-    [SerializeField] GameObject Place;
-    [SerializeField] int numOfXParts;
-    [SerializeField] int numOfZParts;
-
-    public DecisionTree Tree { private set; get; }
-
-    private List<BoxCollider> places = new List<BoxCollider>();
     private void Awake()
     {
         if(Instance == null)
@@ -46,10 +43,11 @@ public class PlaceCreator : MonoBehaviour
         pos.x -= XDivide/2;
         pos.z -= ZDivide/2;
 
-        // Variabler för att sätta namnet på objektet
+        // Variables used to set the name of the places
         int x = 0;
         int y = 0;
 
+        // Instantiating the places
         for (int i = 0; i < numOfXParts; i++)
         {
             pos.x += XDivide;
@@ -62,7 +60,6 @@ public class PlaceCreator : MonoBehaviour
                 place.name = $"Place {x}, {y}";
                 places.Add(placeCol);
                 x++;
-
             }
 
             pos.z = col.bounds.min.z - (ZDivide / 2);
@@ -73,6 +70,9 @@ public class PlaceCreator : MonoBehaviour
         CreateDecisionTree();
     }
 
+    /// <summary>
+    /// Creates a new DecisionTree and sets it to the PlaceCreator.Tree
+    /// </summary>
     public void CreateDecisionTree()
     {
         HidingSpots = new List<HidingSpot>();
@@ -96,14 +96,21 @@ public class PlaceCreator : MonoBehaviour
                 HidingSpots.Add(hSpot);
                 
             }
-
         }
-        
-
-        //print(Tree.RootNode);
-        //print(Tree.ToString());
     }
 
+    /// <summary>
+    /// Returns the next hidingspot from the current DecisionTree for the AI to check, based on the probability of the HidingSpots
+    /// </summary>
+    /// <returns> The next hidingspot to check from the current DecisionTree</returns>
+    public DecisionNode GetNextHidingSpot()
+    {
+        DecisionNode place = Tree.RootNode.GetNodeOfHighestProbability();
+        DecisionNode spot = place.GetRandomHidingSpot();
+        return spot;
+    }
+
+    // Used for drawing the bounds and names of the places
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -125,17 +132,5 @@ public class PlaceCreator : MonoBehaviour
         GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y), text);
         UnityEditor.Handles.EndGUI();
     }
-    // Källa: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
-
-
-    public DecisionNode GetNextHidingSpot()
-    {
-        DecisionNode place = Tree.RootNode.GetNodeOfHighestProbability();
-
-
-        DecisionNode spot = place.GetRandomHidingSpot();
-        return spot;
-    }
-
-
+    // Source for the above function: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
 }

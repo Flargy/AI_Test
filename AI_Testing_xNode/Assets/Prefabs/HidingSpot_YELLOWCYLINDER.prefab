@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffadfb255cdaf754091afb198318ca2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerProbability: 0
   probability: 1
   visited: 0
   type: 2

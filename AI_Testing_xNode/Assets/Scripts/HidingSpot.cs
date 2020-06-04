@@ -6,14 +6,33 @@ using XNode.Examples.MathNodes;
 
 public class HidingSpot : MonoBehaviour
 {
-    public int playerProbability = 1;
-    public int probability = 1;
-    //public Vector3 position = Vector3.zero;
+    [SerializeField] private int playerProbability = 1;
+    public int PlayerProbability { get { return playerProbability; } 
+                                   private set { playerProbability = value; } }
+    [SerializeField] private int probability = 1;
+    public int Probability  { get { return probability; }
+                              private set { probability = value; } }
     public bool visited = false;
-    public TypeOfObject type;
+    [SerializeField] private TypeOfObject type;
+    public TypeOfObject Type { get { return type; }
+                               private set { type = value; } }
     public int ID;
     private bool hasBeenUpdated = false;
 
+    public void Start()
+    {
+        EventController.current.LowerProbabilityEvent += LowerProbability;
+        EventController.current.SaveDataEvent += SaveData;
+        EventController.current.ResetHidingEvent += ResetToStartingValues;
+        
+        LoadData();
+    }
+
+    /// <summary>
+    /// Uppdates the HidingSpot's probability based on the distance the player was from the HidingSpot,
+    /// The closer the player was to the HidingSpot the more probability increases
+    /// </summary>
+    /// <param name="playerPostion"> The position of the player </param>
     public void UpdateProbability(Vector3 playerPostion)
     {
         if (hasBeenUpdated == false)
@@ -24,78 +43,91 @@ public class HidingSpot : MonoBehaviour
             switch (value)
             {
                 case 0:
-                    probability = Mathf.Clamp(probability + 3, 1, 10);
+                    Probability = Mathf.Clamp(Probability + 3, 1, 10);
                     break;
                 case 1:
-                    probability = Mathf.Clamp(probability + 2, 1, 10);
+                    Probability = Mathf.Clamp(Probability + 2, 1, 10);
                     break;
                 default:
-                    probability = Mathf.Clamp(probability + 1, 1, 10);
+                    Probability = Mathf.Clamp(Probability + 1, 1, 10);
                     break;
             }
         }
     }
 
+    /// <summary>
+    /// Uppdates the HidingSpot's probability.
+    /// </summary>
+    /// <param name="addedProbability"> The amount to add to the probability</param>
     public void UpdateProbability(int addedProbability)
     {
         if (hasBeenUpdated == false)
         {
             hasBeenUpdated = true;
-            probability += addedProbability;
+            Probability += addedProbability;
         }
     }
 
-    public void Start()
+    /// <summary>
+    /// Lowers the HidingSpot's probability with -1.
+    /// This function is used to "erode" the probability of all nodes that was not increased. 
+    /// </summary>
+    private void LowerProbability()
     {
-       
-        EventController.current.LowerProbabilityEvent += LowerProbability;
-        EventController.current.SaveDataEvent += SaveData;
-        EventController.current.ResetHidingEvent += Reset;
-        LoadData();
+        if (hasBeenUpdated == false)
+        {
+            Probability = Mathf.Clamp(Probability - 1, 1, 10);
+        }
     }
 
-    public void Reset()
+    /// <summary>
+    /// Resets hasBeenYpdatedm to allow the HidingSpot to update its probability again;
+    /// </summary>
+    private void ResetToStartingValues()
     {
         hasBeenUpdated = false;
     }
 
-    public void LowerProbability()
+    /// <summary>
+    /// Saves the probability of the HidingSpot using the PlayerPrefs.
+    /// </summary>
+    private void SaveData()
     {
-        if (hasBeenUpdated == false)
-        {
-            probability = Mathf.Clamp(probability - 1, 1, 10);
-        }
+        PlayerPrefs.SetInt("HidingSpot" + ID, Probability);
     }
 
-    public void SaveData()
+    /// <summary>
+    /// Loads the probability of the HidingSpot using the PlayerPrefs.
+    /// </summary>
+    private void LoadData()
     {
-        
-        PlayerPrefs.SetInt("HidingSpot" + ID, probability);
-        
-    }
-
-    public void LoadData()
-    {
-        
         int temp = PlayerPrefs.GetInt("HidingSpot" + ID);
 
         if(temp != 0)
         {
-            probability = temp;
+            Probability = temp;
         }
-        
     }
 
-    public void Update()
+    // Drawing the probability of the AI to choose the HidingSpot and the players probability to choose the same HidingSpot 
+    private void OnDrawGizmos()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveData();
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadData();
-        }
+        if(Type != TypeOfObject.PLACE)
+            DrawString($"{Probability} : {PlayerProbability}", transform.position + (Vector3.up * 3), Color.blue); // Drawing the current probability of the HidingSpot and the player probability of choosing the HidingSpot 
+        else
+            DrawString($"{Probability}", transform.position + Vector3.up, Color.blue); // Drawing the current probability of the place
     }
+
+    static void DrawString(string text, Vector3 worldPos, Color? colour = null)
+    {
+        UnityEditor.Handles.BeginGUI();
+        if (colour.HasValue) GUI.color = colour.Value;
+        var view = UnityEditor.SceneView.currentDrawingSceneView;
+        Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text));
+        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y), text);
+        UnityEditor.Handles.EndGUI();
+    }
+    // Source for the above function: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
 
 }
