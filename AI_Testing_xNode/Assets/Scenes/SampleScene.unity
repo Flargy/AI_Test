@@ -3568,7 +3568,6 @@ MonoBehaviour:
     stopSearchTime: 5
     visionAngle: 60
     visionDistance: 3
-    MAX_RADIUS: 2.5
   patrolPoints: []
   alertLocation: {x: 0, y: 0, z: 0}
   alerted: 0
@@ -5304,17 +5303,17 @@ PrefabInstance:
     - target: {fileID: 7133171353451714212, guid: afbdcde6802c0ce44a2552137f41b576,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7133171353451714212, guid: afbdcde6802c0ce44a2552137f41b576,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7133171353451714212, guid: afbdcde6802c0ce44a2552137f41b576,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7133171353451714212, guid: afbdcde6802c0ce44a2552137f41b576,
         type: 3}

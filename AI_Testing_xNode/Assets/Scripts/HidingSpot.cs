@@ -25,13 +25,16 @@ public class HidingSpot : MonoBehaviour
 
     public void Start()
     {
-        Camera cam = Camera.main;
         textCanvas = GetComponentInChildren<Canvas>();
-        textCanvas.renderMode = RenderMode.WorldSpace;
-        textCanvas.transform.position = transform.position + Vector3.up;
-        textCanvas.transform.rotation = Quaternion.FromToRotation(textCanvas.transform.forward, cam.transform.position - textCanvas.transform.position);
-        textCanvas.worldCamera = cam;
-        textBox = textCanvas.GetComponentInChildren<Text>();
+        if(textCanvas != null)
+        {
+            textCanvas.renderMode = RenderMode.WorldSpace;
+            textCanvas.transform.position = transform.position + Vector3.up;
+            textCanvas.transform.rotation = Quaternion.Euler(45f, 0f, 0f);
+            Camera cam = Camera.main;
+            textCanvas.worldCamera = cam;
+            textBox = textCanvas.GetComponentInChildren<Text>();
+        }
 
         EventController.current.LowerProbabilityEvent += LowerProbability;
         EventController.current.SaveDataEvent += SaveData;
@@ -130,7 +133,8 @@ public class HidingSpot : MonoBehaviour
     /// </summary>
     private void UpdateTextUI()
     {
-        textBox.text = $"{Probability} : {PlayerProbability}";
+        if (textCanvas != null)
+            textBox.text = $"{Probability} : {PlayerProbability}";
     }
 
     // Drawing the probability of the AI to choose the HidingSpot and the players probability to choose the same HidingSpot 
