@@ -12,12 +12,25 @@ public class BTSelectHidingSpot : BTNode
     {
         if (context.agent.pathPending == false && context.agent.hasPath == false)
         {
-            HidingSpot spot = PlaceCreator.Intance.GetNextHidingSpot();
-            context.contextOwner.destination = spot.transform.position;
-            context.agent.SetDestination(spot.transform.position);
-            Debug.Log("getting new spot " + spot.name);
-            //context.agent.SetDestination(targetSpot.position);
-            //context.contextOwner.destination = targetSpot.position;
+            if(context.contextOwner.recentNode != null)
+            {
+                DecisionNode parent = context.contextOwner.recentNode.Parent;
+                context.contextOwner.recentNode.Parent.Children.Remove(context.contextOwner.recentNode);
+                if(parent.Children.Count == 0)
+                {
+                    parent.Parent.Children.Remove(parent);
+                }
+            }
+
+            DecisionNode node = PlaceCreator.Instance.GetNextHidingSpot();
+            context.contextOwner.recentNode = node;
+            context.contextOwner.destination = node.Spot.transform.position;
+            context.agent.SetDestination(node.Spot.transform.position);
+
+
+            //Children.Remove(returnNode);
+            //if (Children.Count == 0)
+            //    Parent.Children.Remove(this);
 
             return BTResult.SUCCESS;
         }

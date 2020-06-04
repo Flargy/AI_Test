@@ -26,7 +26,7 @@ public class DecisionNode
         {
             if (parent.Children == null)
                 parent.Children = new List<DecisionNode>();
-            parent.Children.Add(newNode);
+            parent.Children.Add(newNode);            
             return newNode;
 
         }
@@ -35,11 +35,19 @@ public class DecisionNode
 
     public DecisionNode GetChild(HidingSpot hidingSpot)
     {
-        foreach(DecisionNode node in Children)
+
+        if ( Children != null)
         {
-            if (node.Spot == hidingSpot)
+            if (Children.Count != 0)
             {
-                return node;
+                foreach (DecisionNode node in Children)
+                {
+
+                    if (node.Spot == hidingSpot)
+                    {
+                        return node;
+                    }
+                }
             }
         }
         return null;
@@ -82,7 +90,7 @@ public class DecisionNode
         return sameNodes[Random.Range(0, sameNodes.Count)];
     }
 
-    public HidingSpot GetRandomHidingSpot()
+    public DecisionNode GetRandomHidingSpot()
     {
         if (Children == null)
         {
@@ -101,23 +109,21 @@ public class DecisionNode
         int index = UnityEngine.Random.Range(0, totalsum ) + 1;
         int sum = 0;
         int i = -1;
-        Debug.Log("total sum " + totalsum + " index: " + index);
+
         while (sum < index)
         {
             sum += Children[i+1].Spot.probability;
             i++;
         }
-        Debug.Log("i " + i);
+
 
         DecisionNode returnNode = Children[Mathf.Max(0, i)];
-        Children.Remove(returnNode);
-        if (Children.Count == 0)
-            Parent.Children.Remove(this);
+      
 
-        Debug.Log("returing spot " + returnNode.Spot);
-        return returnNode.Spot;
+        return returnNode;
 
     }
+
 }
 
 

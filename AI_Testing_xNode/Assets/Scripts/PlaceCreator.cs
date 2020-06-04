@@ -8,7 +8,8 @@ public class PlaceCreator : MonoBehaviour
     private BoxCollider col;
 
     public LayerMask HidingLayer;
-    public static PlaceCreator Intance = null;
+    public static PlaceCreator Instance = null;
+    public List<HidingSpot> HidingSpots = null;
 
     [SerializeField] GameObject Place;
     [SerializeField] int numOfXParts;
@@ -19,9 +20,9 @@ public class PlaceCreator : MonoBehaviour
     private List<BoxCollider> places = new List<BoxCollider>();
     private void Awake()
     {
-        if(Intance == null)
+        if(Instance == null)
         {
-            Intance = this;
+            Instance = this;
         }
         else
         {
@@ -33,6 +34,7 @@ public class PlaceCreator : MonoBehaviour
 
     void Start()
     {
+        
         float colXSize = col.bounds.size.x;
         float colZSize = col.bounds.size.z;
 
@@ -71,8 +73,9 @@ public class PlaceCreator : MonoBehaviour
         CreateDecisionTree();
     }
 
-    private void CreateDecisionTree()
+    public void CreateDecisionTree()
     {
+        HidingSpots = new List<HidingSpot>();
         Tree = new DecisionTree();
         foreach (BoxCollider place in places)
         {
@@ -82,16 +85,20 @@ public class PlaceCreator : MonoBehaviour
             DecisionNode node = DecisionNode.CreateChild(Tree.RootNode, placeSpot, TypeOfObject.PLACE);
             Collider[] hidingSpots = Physics.OverlapBox(place.bounds.center, place.bounds.size / 2, Quaternion.identity, HidingLayer);
 
-            foreach(Collider spot in hidingSpots)
+
+            foreach (Collider spot in hidingSpots)
             {
                 HidingSpot hSpot = spot.GetComponent<HidingSpot>();
                 hSpot.ID = hSpot.transform.position.GetHashCode();
                 DecisionNode newSpot = DecisionNode.CreateChild(node, hSpot, TypeOfObject.PLACE);
                 //node.Children.Add(newSpot);
-                print("ADD CHILD " + spot.name + " in place " + node.Spot.name);
 
+                HidingSpots.Add(hSpot);
+                
             }
+
         }
+        
 
         //print(Tree.RootNode);
         //print(Tree.ToString());
@@ -121,12 +128,12 @@ public class PlaceCreator : MonoBehaviour
     // Källa: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
 
 
-    public HidingSpot GetNextHidingSpot()
+    public DecisionNode GetNextHidingSpot()
     {
         DecisionNode place = Tree.RootNode.GetNodeOfHighestProbability();
-        print("place " + place.Spot.name);
 
-        HidingSpot spot = place.GetRandomHidingSpot();
+
+        DecisionNode spot = place.GetRandomHidingSpot();
         return spot;
     }
 

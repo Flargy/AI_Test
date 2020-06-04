@@ -24,14 +24,19 @@ public class DecisionTree
         return builder.ToString();
     }
 
-    public DecisionNode GetDecisionNode(HidingSpot hindingSpot)
+    public DecisionNode GetDecisionNode(HidingSpot hidingSpot)
     {
-        foreach (DecisionNode node in RootNode.Children)
+        foreach (DecisionNode node in PlaceCreator.Instance.Tree.RootNode.Children)
         {
-            DecisionNode Cnode = node.GetChild(hindingSpot);
+
+            DecisionNode Cnode = node.GetChild(hidingSpot);
             if (Cnode != null)
+            {
+
                 return Cnode;
+            }
         }
+
 
         return null;
     }

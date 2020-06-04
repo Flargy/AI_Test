@@ -20,6 +20,8 @@ public class AISensor
 
     float noTargetTimer = 0;
 
+    private bool targetFound = false;
+
 
     public void Initialize(AIComponent ai, NavMeshAgent navAgent)
     {
@@ -46,14 +48,7 @@ public class AISensor
                 aiComponent.playerFound = true;
             }
 
-            Collider[] neabySpots = Physics.OverlapSphere(aiComponent.target.transform.position, MAX_RADIUS, PlaceCreator.Intance.HidingLayer);
-            PlaceCreator.Intance.Tree.GetDecisionNode(neabySpots[0].GetComponent<HidingSpot>()).Spot.UpdateProbability(1); // Ökar sanorlikheten för platsen
-
-            // Ökar snarolikheten för alla närliggande gömställen
-            foreach (Collider item in neabySpots)
-            {
-                item.GetComponent<HidingSpot>().UpdateProbability(aiComponent.target.transform.position);
-            }
+            FoundPlayer();
         }
         else
         {
@@ -69,6 +64,30 @@ public class AISensor
                     aiComponent.playerFound = false;
                 }
             }
+        }
+    }
+
+    private void FoundPlayer()
+    {
+        if (targetFound == false)
+        {
+            targetFound = true;
+            Collider[] nearbySpots = Physics.OverlapSphere(aiComponent.target.transform.position, MAX_RADIUS, PlaceCreator.Instance.HidingLayer);
+            PlaceCreator.Instance.Tree.GetDecisionNode(nearbySpots[0].GetComponent<HidingSpot>()).Parent.Spot.UpdateProbability(3); // Ökar sannolikheten för platsen
+
+            // Ökar snarolikheten för alla närliggande gömställen
+            foreach (Collider item in nearbySpots)
+            {
+                item.GetComponent<HidingSpot>().UpdateProbability(aiComponent.target.transform.position);
+            }
+
+            EventController.current.LowerProbability();
+            EventController.current.SaveData();
+            EventController.current.ResetHiding();
+            PlaceCreator.Instance.CreateDecisionTree();
+            agent.Warp(aiComponent.startPosition);
+            agent.ResetPath();
+            targetFound = false;
         }
     }
 
