@@ -1,5 +1,8 @@
 ﻿using XNode;
 
+/// <summary>
+/// A composite node that repeats a section in the behavior tree until it returns <see cref="BTResult.SUCCESS"/>. Useful for halting behavior until a condition is met
+/// </summary>
 [BTComposite(typeof(BTUntilSuccess))]
 public class BTUntilSuccess : BTNode
 {

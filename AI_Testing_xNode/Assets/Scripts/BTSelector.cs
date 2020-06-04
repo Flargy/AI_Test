@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
+/// <summary>
+/// Can be connected to multiple nodes in a behavior tree and only fully activates the first one that returns <see cref="BTResult.SUCCESS"/>
+/// </summary>
 [BTComposite(typeof(BTSelector))]
 public class BTSelector : BTNode
 {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
+/// <summary>
+/// A composite node that repeats a section in the behavior tree until it returns <see cref="BTResult.FAILURE"/>. Useful for halting behavior until a condition is met
+/// </summary>
 [BTComposite(typeof(BTUntilFailure))]
 public class BTUntilFailure : BTNode
 {

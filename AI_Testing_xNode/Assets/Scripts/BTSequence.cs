@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
+/// <summary>
+/// Can be connected to multiple nodes in a behavior tree and will continue activating them in sequence according to the <see cref="inResults"/> order as long as they return <see cref="BTResult.SUCCESS"/>
+/// </summary>
 [BTComposite(typeof(BTSequence))]
 public class BTSequence : BTNode
 {

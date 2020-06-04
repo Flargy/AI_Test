@@ -5,10 +5,13 @@ using XNode;
 public class RuntimeBehaviourTree : MonoBehaviour
 {
     public BehaviourTreeType behaviourTreeType;
-    public BTGraph runtimeTree;
+    public BTGraph runtimeTree; // The behavior tree that will be activated during runtime
     BTRoot rootNode;
     bool isValid = false;
 
+    /// <summary>
+    /// Checks that the current behavior tree is valid and has a root node
+    /// </summary>
     private void Start()
     {
         isValid = ValidateAndSetRootNode();
@@ -18,31 +21,39 @@ public class RuntimeBehaviourTree : MonoBehaviour
         }
     }
 
-    public virtual void RunBehaviourTree(BTContextData _currentContextData)
+    /// <summary>
+    /// Activates the behavior tree and returns its child nodes
+    /// </summary>
+    /// <param name="currentContextData"></param>
+    public virtual void RunBehaviourTree(BTContextData currentContextData)
     {
         if (isValid)
         {
 
             BTNode runningNode;
-            if (_currentContextData.HasRunningNodes(out runningNode))
+            if (currentContextData.HasRunningNodes(out runningNode))
             {
                 //Running node will attempt to get context from parent node
                 //So we need to override the parents node context event if it's not executed
                 BTNode parentNode = runningNode.GetPort("outResult").Connection.node as BTNode;
                 if (parentNode != null)
                 {
-                    parentNode.context = _currentContextData.owningContext;
+                    parentNode.context = currentContextData.owningContext;
                 }
                 runningNode.GetPort("outResult").GetOutputValue();
             }
             else
             {
-                rootNode.context = _currentContextData.owningContext;
+                rootNode.context = currentContextData.owningContext;
                 rootNode.GetInputValue("inResult", BTResult.FAILURE);
             }
         }
     }
 
+    /// <summary>
+    /// Tests a set of conditions to ensure that the behavior tree is functional
+    /// </summary>
+    /// <returns></returns>
     private bool ValidateAndSetRootNode()
     {
         if (runtimeTree == null)

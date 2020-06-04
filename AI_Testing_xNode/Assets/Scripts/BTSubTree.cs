@@ -2,10 +2,13 @@
 using UnityEngine;
 using XNode;
 
+/// <summary>
+/// A Composite node that takes another behavior tree as argument to link them together and save space in <see cref="XNode"/>
+/// </summary>
 [BTComposite(typeof(BTSubTree))]
 public class BTSubTree : BTNode
 {
-    public BTGraph subTree;
+    public BTGraph subTree; // A behavior tree to be connected in the main behavior tree
     BTRoot subTreeRoot;
 
     bool isValid = false;
@@ -27,6 +30,10 @@ public class BTSubTree : BTNode
         }
     }
 
+    /// <summary>
+    /// Checks if the connected behavior tree is valid and has a root node
+    /// </summary>
+    /// <returns></returns>
     private bool ValidateAndSetRootNode()
     {
         if (subTree == null)

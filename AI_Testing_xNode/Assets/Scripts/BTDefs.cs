@@ -9,6 +9,9 @@ public static class BTDefs
     public const string MOVEMENT_STATE = "MoveState";
 }
 
+/// <summary>
+/// Various enum that can be used to set conditions to the agent. Currently not used
+/// </summary>
 public enum MovementState
 {
     IDLE,
@@ -16,6 +19,9 @@ public enum MovementState
     RUN
 }
 
+/// <summary>
+/// The result values used to determine success of failure in a behaviour tree
+/// </summary>
 public enum BTResult
 {
     SUCCESS,
@@ -23,18 +29,27 @@ public enum BTResult
     RUNNING
 }
 
+/// <summary>
+/// The typed of agent that a behavior tree can control
+/// </summary>
 public enum BehaviourTreeType
 {
     AI,
     COUNT
 }
 
+/// <summary>
+/// Different path types to determine AI agent behavior
+/// </summary>
 public enum PathType
 {
     TARGET,
     RANDOM
 }
 
+/// <summary>
+/// Adds a Composite section in <see cref="XNode"/>
+/// </summary>
 public class BTCompositeAttribute : CreateNodeMenuAttribute
 {
     public BTCompositeAttribute(Type _type)
@@ -43,6 +58,9 @@ public class BTCompositeAttribute : CreateNodeMenuAttribute
     }
 }
 
+/// <summary>
+/// Adds a Agent section in <see cref="XNode"/>
+/// </summary>
 public class BTAgentAttribute : CreateNodeMenuAttribute
 {
     public BTAgentAttribute(Type _type)

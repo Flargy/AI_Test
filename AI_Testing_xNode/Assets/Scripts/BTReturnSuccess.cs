@@ -1,4 +1,7 @@
-﻿[BTComposite(typeof(BTReturnSuccess))]
+﻿/// <summary>
+/// Forces the return value of the behavior tree path to <see cref="BTResult.SUCCESS"/>
+/// </summary>
+[BTComposite(typeof(BTReturnSuccess))]
 public class BTReturnSuccess : BTNode
 {
     [Input] public BTResult inResult;
