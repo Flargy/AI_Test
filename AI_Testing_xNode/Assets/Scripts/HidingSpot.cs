@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using XNode.Examples.MathNodes;
 
 public class HidingSpot : MonoBehaviour
@@ -19,8 +20,19 @@ public class HidingSpot : MonoBehaviour
     public int ID;
     private bool hasBeenUpdated = false;
 
+    [SerializeField] private Canvas textCanvas;
+    private Text textBox;
+
     public void Start()
     {
+        Camera cam = Camera.main;
+        textCanvas = GetComponentInChildren<Canvas>();
+        textCanvas.renderMode = RenderMode.WorldSpace;
+        textCanvas.transform.position = transform.position + Vector3.up;
+        textCanvas.transform.rotation = Quaternion.FromToRotation(textCanvas.transform.forward, cam.transform.position - textCanvas.transform.position);
+        textCanvas.worldCamera = cam;
+        textBox = textCanvas.GetComponentInChildren<Text>();
+
         EventController.current.LowerProbabilityEvent += LowerProbability;
         EventController.current.SaveDataEvent += SaveData;
         EventController.current.ResetHidingEvent += ResetToStartingValues;
@@ -52,6 +64,7 @@ public class HidingSpot : MonoBehaviour
                     Probability = Mathf.Clamp(Probability + 1, 1, 10);
                     break;
             }
+            UpdateTextUI();
         }
     }
 
@@ -66,6 +79,7 @@ public class HidingSpot : MonoBehaviour
             hasBeenUpdated = true;
             Probability += addedProbability;
         }
+        UpdateTextUI();
     }
 
     /// <summary>
@@ -78,6 +92,7 @@ public class HidingSpot : MonoBehaviour
         {
             Probability = Mathf.Clamp(Probability - 1, 1, 10);
         }
+        UpdateTextUI();
     }
 
     /// <summary>
@@ -107,6 +122,15 @@ public class HidingSpot : MonoBehaviour
         {
             Probability = temp;
         }
+        UpdateTextUI();
+    }
+
+    /// <summary>
+    /// Updates the UI in the scene that shows the current probabilities
+    /// </summary>
+    private void UpdateTextUI()
+    {
+        textBox.text = $"{Probability} : {PlayerProbability}";
     }
 
     // Drawing the probability of the AI to choose the HidingSpot and the players probability to choose the same HidingSpot 
