@@ -20,7 +20,10 @@ De olika geomertiska formerna som är utplacerade på kartan är gömställen.
 Spelaren är en grön kub.
 Ovanför gömställena så finns det två siffor
 	Den första siffran visar hur stor chans AI: har att välja detta gömställe.
-	Den andra siffran visar hur stor sanorlikhet spelaren har att välja att gömma sig vid denna nod.
+	Den andra siffran visar hur stor sanorlikhet spelaren har att välja att gömma sig vid detta gömställe.
+De gröna sifforna är platsernas (inte att förväxlas med gömställenas) sanorlikhet att väljas.
+Det går att se storleken på platserna genom att klicka på "gizmos" knappen till höger ovanför spelvyn.
+Detta går också att göra i scenvyn. 
 
 Det går att ändra hastigheten på simulationen genom att dra slidern som finns nere i vänstra hörnet i spelvyn.
 

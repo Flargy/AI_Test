@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using XNode.Examples.MathNodes;
 
 public class HidingSpot : MonoBehaviour
 {
@@ -31,9 +27,13 @@ public class HidingSpot : MonoBehaviour
             textCanvas.renderMode = RenderMode.WorldSpace;
             textCanvas.transform.position = transform.position + Vector3.up;
             textCanvas.transform.rotation = Quaternion.Euler(45f, 0f, 0f);
-            Camera cam = Camera.main;
-            textCanvas.worldCamera = cam;
+            textCanvas.worldCamera = Camera.main;
             textBox = textCanvas.GetComponentInChildren<Text>();
+        }
+		if(type == TypeOfObject.PLACE)
+        {
+            textCanvas.transform.rotation = Quaternion.Euler(25f, 0f, 0f);
+            textBox.color = Color.green;
         }
 
         EventController.current.LowerProbabilityEvent += LowerProbability;
@@ -134,28 +134,31 @@ public class HidingSpot : MonoBehaviour
     private void UpdateTextUI()
     {
         if (textCanvas != null)
-            textBox.text = $"{Probability} : {PlayerProbability}";
+            if (type != TypeOfObject.PLACE)
+                textBox.text = $"{Probability} : {PlayerProbability}";
+            else
+                textBox.text = $"{Probability}";
     }
 
     // Drawing the probability of the AI to choose the HidingSpot and the players probability to choose the same HidingSpot 
-    private void OnDrawGizmos()
-    {
-        if(Type != TypeOfObject.PLACE)
-            DrawString($"{Probability} : {PlayerProbability}", transform.position + (Vector3.up * 3), Color.blue); // Drawing the current probability of the HidingSpot and the player probability of choosing the HidingSpot 
-        else
-            DrawString($"{Probability}", transform.position + Vector3.up, Color.blue); // Drawing the current probability of the place
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if(Type != TypeOfObject.PLACE)
+    //        DrawString($"{Probability} : {PlayerProbability}", transform.position + (Vector3.up * 3), Color.blue); // Drawing the current probability of the HidingSpot and the player probability of choosing the HidingSpot 
+    //    else
+    //        DrawString($"{Probability}", transform.position + Vector3.up, Color.blue); // Drawing the current probability of the place
+    //}
 
-    static void DrawString(string text, Vector3 worldPos, Color? colour = null)
-    {
-        UnityEditor.Handles.BeginGUI();
-        if (colour.HasValue) GUI.color = colour.Value;
-        var view = UnityEditor.SceneView.currentDrawingSceneView;
-        Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
-        Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text));
-        GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y), text);
-        UnityEditor.Handles.EndGUI();
-    }
+    //static void DrawString(string text, Vector3 worldPos, Color? colour = null)
+    //{
+    //    UnityEditor.Handles.BeginGUI();
+    //    if (colour.HasValue) GUI.color = colour.Value;
+    //    var view = UnityEditor.SceneView.currentDrawingSceneView;
+    //    Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
+    //    Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text));
+    //    GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y), text);
+    //    UnityEditor.Handles.EndGUI();
+    //}
     // Source for the above function: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
 
 }
