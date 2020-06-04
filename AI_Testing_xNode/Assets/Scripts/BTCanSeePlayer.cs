@@ -8,6 +8,11 @@ using UnityEngine.AI;
 public class BTCanSeePlayer : BTNode
 {
 
+    /// <summary>
+    /// Checks the value of <see cref="AIComponent.playerFound"/> and returns <see cref="BTResult.SUCCESS"/> if true and <see cref="BTResult.FAILURE"/> if false 
+    /// <para>This is used to determine if the AI agent is capable of seeing the player</para>
+    /// </summary>
+    /// <returns></returns>
     public override BTResult Execute()
     {
         if(context.contextOwner.playerFound == true)
@@ -19,7 +24,7 @@ public class BTCanSeePlayer : BTNode
             return BTResult.FAILURE;
         }
 
-        //return context.navAgent.hasPath || context.navAgent.pathPending ? BTResult.SUCCESS : BTResult.FAILURE;
+        
     }
 
     

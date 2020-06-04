@@ -5,8 +5,11 @@ using System;
 
 public class EventController : MonoBehaviour
 {
-    public static EventController current = null;
+    public static EventController current = null; // Variable for singletin instance
 
+    /// <summary>
+    /// Creates a singleton instance of this script
+    /// </summary>
     private void Awake()
     {
         if(current == null)
@@ -15,6 +18,9 @@ public class EventController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Event that scripts can subscribe to
+    /// </summary>
     public event Action LowerProbabilityEvent;
     public void LowerProbability()
     {
@@ -24,6 +30,9 @@ public class EventController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Event that scripts can subscribe to
+    /// </summary>
     public event Action SaveDataEvent;
     public void SaveData()
     {
@@ -33,6 +42,9 @@ public class EventController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Event that scripts can subscribe to
+    /// </summary>
     public event Action ResetHidingEvent;
     public void ResetHiding()
     {

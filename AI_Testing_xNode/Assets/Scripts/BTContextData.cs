@@ -2,14 +2,22 @@
 
 public class BTContextData
 {
-    public BTContextData(BTContext _owningContext)
+    /// <summary>
+    /// Sets the <see cref="BTContext"/> for the behavior tree
+    /// </summary>
+    /// <param name="context"></param>
+    public BTContextData(BTContext context)
     {
-        owningContext = _owningContext;
+        owningContext = context;
     }
 
     public BTContext owningContext;
     List<BTNode> runningNodes = new List<BTNode>();
 
+    /// <summary>
+    /// Adds a node to <see cref="runningNodes"/>
+    /// </summary>
+    /// <param name="_node"></param>
     public void AddRunningNode(BTNode _node)
     {
         if (!runningNodes.Contains(_node))
@@ -18,11 +26,20 @@ public class BTContextData
         }
     }
 
+    /// <summary>
+    /// Removes node from <see cref="runningNodes"/>
+    /// </summary>
+    /// <param name="nodeToRemove"></param>
     public void RemoveRunningNode(BTNode nodeToRemove)
     {
         runningNodes.Remove(nodeToRemove);
     }
 
+    /// <summary>
+    /// Checks if <see cref="runningNodes"/> contains <see cref="BTNode"/> runningNode
+    /// </summary>
+    /// <param name="runningNode"></param>
+    /// <returns></returns>
     public bool HasRunningNodes(out BTNode runningNode)
     {
         runningNode = null;

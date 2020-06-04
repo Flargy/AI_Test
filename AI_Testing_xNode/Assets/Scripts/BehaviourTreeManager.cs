@@ -9,18 +9,22 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
     Dictionary<BehaviourTreeType, RuntimeBehaviourTree> behaviourTreeMap;
     Dictionary<BehaviourTreeType, List<BTContextData>> contextDataMap;
 
-    bool behaviourTreeStarting = true;
+    bool behaviourTreeStarting = true; // Bool to make sure that the behavior trees are only initialized once
 
-    public float updateRate = 0.5f;
+    public float updateRate = 0.5f; // Controls the update rate of the behavior trees
     public float updateTimer = 0;
 
     private void Start()
     {
-        behaviourTreeMap = BehaviourTreeRuntimeData.GetBehaviourTrees();
-        contextDataMap = BehaviourTreeRuntimeData.GetContextData();
+        behaviourTreeMap = BehaviourTreeRuntimeData.GetBehaviourTrees(); // Retreives the static dictionary from BehaviourTreeRuntimeData
+        contextDataMap = BehaviourTreeRuntimeData.GetContextData(); // Retreives the static dictionary from BehaviourTreeRuntimeData
     }
 
-    private void Update()
+
+    /// <summary>
+    /// Updates the behaviour trees on a set interval by clearing their history and starting them again
+    /// </summary>
+    private void Update() 
     {
         if(behaviourTreeStarting == true)
         {
@@ -39,6 +43,10 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
         else updateTimer += Time.deltaTime;
     }
 
+
+    /// <summary>
+    /// Activates every behavior tree in <see cref="BehaviourTreeType"/>
+    /// </summary>
     private void StartAgents()
     {
         for(int i = 0; i < (int)BehaviourTreeType.COUNT; i++)
@@ -55,6 +63,9 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
         }
     }
 
+    /// <summary>
+    /// Clears the history of every behavior tree in <see cref="BehaviourTreeType"/>
+    /// </summary>
 #if UNITY_EDITOR
     private void ClearAgentHistory()
     {
@@ -73,6 +84,9 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
     }
 #endif
 
+    /// <summary>
+    /// Initiates the first startup of every behavior tree in <see cref="BehaviourTreeType"/>
+    /// </summary>
     private void InitializeAllBehaviourTrees()
     {
         for (int i = 0; i < (int)BehaviourTreeType.COUNT; ++i)
@@ -86,6 +100,10 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
         }
     }
 
+    /// <summary>
+    /// Initializes the nodes in the tree for usage
+    /// </summary>
+    /// <param name="nodeList"></param>
     private void InitializeTreeNodes(List<Node> nodeList)
     {
         foreach (Node node in nodeList)
@@ -103,6 +121,11 @@ public class BehaviourTreeManager : Singleton<BehaviourTreeManager>
         }
     }
 
+
+    /// <summary>
+    /// Returns <see cref="BTContextData"/> for each behavior tree in <see cref="contextDataMap"/>
+    /// </summary>
+    /// <returns></returns>
     public List<BTContextData> GetAllContextData()
     {
         List<BTContextData> dataList = new List<BTContextData>();

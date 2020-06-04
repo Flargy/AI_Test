@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Node that sets a new destination for the <see cref="NavMeshAgent"/>
+/// <para>OBS: Test class that is not used</para>
+/// </summary>
 [BTAgent(typeof(BTSetpath))]
 public class BTSetpath : BTNode
 {

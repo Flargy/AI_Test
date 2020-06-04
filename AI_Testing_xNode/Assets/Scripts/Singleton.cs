@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// An abstract singleton class used by <see cref="BehaviourTreeManager"/> to ensure it only exists once in memory
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public abstract class Singleton<T> : MonoBehaviour where T : Component
 {
     private static T instance;
@@ -23,13 +27,6 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
         return instance;
     }
 
-    /* IMPORTANT!!! To use Awake in a derived class you need to do it this way
-     * protected override void Awake()
-     * {
-     *     base.Awake();
-     *     //Your code goes here
-     * }
-     * */
 
     protected virtual void Awake()
     {

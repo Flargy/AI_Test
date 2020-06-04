@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
+
+/// <summary>
+/// Fetches a <see cref="DecisionNode"/> from <see cref="PlaceCreator.Instance"/> and sets that as the agents new destination
+/// <para>Removes a node once it has been explored</para>
+/// </summary>
 [BTAgent(typeof(BTSelectHidingSpot))]
 public class BTSelectHidingSpot : BTNode
 {
@@ -26,11 +31,6 @@ public class BTSelectHidingSpot : BTNode
             context.contextOwner.recentNode = node;
             context.contextOwner.destination = node.Spot.transform.position;
             context.agent.SetDestination(node.Spot.transform.position);
-
-
-            //Children.Remove(returnNode);
-            //if (Children.Count == 0)
-            //    Parent.Children.Remove(this);
 
             return BTResult.SUCCESS;
         }

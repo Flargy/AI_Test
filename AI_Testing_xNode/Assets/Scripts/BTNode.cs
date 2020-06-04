@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
+/// <summary>
+/// The base class that all nodes in the behavior trees will derive from
+/// </summary>
 [Serializable]
 public abstract class BTNode : Node
 {
