@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,18 +18,18 @@ public class BTHasPath : BTNode
     {
 
 
-        if (context.agent.hasPath)
+        if (context.agent.hasPath) // Checks if the agent currently has a path
         {
 
             return BTResult.SUCCESS;
         }
-        else if(DestinationIsInRange() || context.contextOwner.destination == Vector3.zero)
+        else if(DestinationIsInRange() || context.contextOwner.destination == Vector3.zero) // If the agent doesn't have a path and is within reach of the previous path do this
         {
            
             return BTResult.FAILURE;
         }
 
-        context.agent.SetDestination(context.contextOwner.destination);
+        context.agent.SetDestination(context.contextOwner.destination); // set the path again if the previous conditions both fail, the agent can occasionally lose its path iwthout reaching it
 
         return BTResult.SUCCESS;
      

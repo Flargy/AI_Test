@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
@@ -10,7 +13,7 @@ public class BTSetAgentSpeed : BTNode
     public float desiredSpeed;
     public override BTResult Execute()
     {
-        context.agent.speed = desiredSpeed;
+        context.agent.speed = desiredSpeed; // Changes the speed of the agent
         return BTResult.SUCCESS;
     }
 }

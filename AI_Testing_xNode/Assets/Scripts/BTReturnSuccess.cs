@@ -1,4 +1,7 @@
-﻿/// <summary>
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+/// <summary>
 /// Forces the return value of the behavior tree path to <see cref="BTResult.SUCCESS"/>
 /// </summary>
 [BTComposite(typeof(BTReturnSuccess))]

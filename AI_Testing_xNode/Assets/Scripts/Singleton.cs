@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using UnityEngine;
 
 /// <summary>
 /// An abstract singleton class used by <see cref="BehaviourTreeManager"/> to ensure it only exists once in memory

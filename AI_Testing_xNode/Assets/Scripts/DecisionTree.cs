@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using System.Text;
 using UnityEngine;
 
 public class DecisionTree

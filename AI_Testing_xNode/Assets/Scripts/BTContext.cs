@@ -1,4 +1,7 @@
-﻿using System;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,11 +9,11 @@ using UnityEngine.AI;
 [Serializable]
 public class BTContext
 {
-    public NavMeshAgent agent;
-    public AIComponent contextOwner;
-    public Transform transform;
-    public List<string> behaviourHistory = new List<string>();
-    public GameObject player;
+    public NavMeshAgent agent; // The NavMeshAgent component connected to the agent
+    public AIComponent contextOwner; // The AIComponent script connected to the agent
+    public Transform transform; // The agent's transform
+    public List<string> behaviourHistory = new List<string>(); // The history of behavior decisions
+    public GameObject player; // The player object
 
 
     /// <summary>

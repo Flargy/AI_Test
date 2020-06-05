@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using UnityEngine;
 
 [BTAgent(typeof(BTIsAlerted))]
 public class BTIsAlerted : BTNode

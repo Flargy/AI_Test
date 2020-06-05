@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 

@@ -1,4 +1,7 @@
-﻿[BTComposite(typeof(BTInvert))]
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+[BTComposite(typeof(BTInvert))]
 public class BTInvert : BTNode
 {
     [Input] public BTResult inResult; // The indata for the node in Xnode
