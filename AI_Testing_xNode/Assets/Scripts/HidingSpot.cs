@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class HidingSpot : MonoBehaviour
@@ -48,24 +50,22 @@ public class HidingSpot : MonoBehaviour
     /// The closer the player was to the HidingSpot the more probability increases
     /// </summary>
     /// <param name="playerPostion"> The position of the player </param>
-    public void UpdateProbability(Vector3 playerPostion)
+    /// /// <param name="maxRange"> The max distance that will give a updated probability </param>
+    public void UpdateProbability(Vector3 playerPostion, float maxRange)
     {
         if (hasBeenUpdated == false)
         {
             hasBeenUpdated = true;
             int value = (int)((playerPostion - this.transform.position).magnitude);
-
-            switch (value)
+            if(value == 0)
             {
-                case 0:
-                    Probability = Mathf.Clamp(Probability + 3, 1, 10);
-                    break;
-                case 1:
-                    Probability = Mathf.Clamp(Probability + 2, 1, 10);
-                    break;
-                default:
-                    Probability = Mathf.Clamp(Probability + 1, 1, 10);
-                    break;
+                Probability = Mathf.Clamp(3, 1, 10);
+            }
+            else
+            {
+                Debug.Log((maxRange / value) + " " + Mathf.Max(3, (maxRange / value)));
+                int newValue = Mathf.Max(1, (int)Math.Round(Probability + (maxRange - value)));
+                Probability = Mathf.Clamp(newValue, 1, 10); // note the probability given will increese if a higher max radius on the SphereCast is choosen in AISensor.
             }
             UpdateTextUI();
         }
@@ -129,7 +129,7 @@ public class HidingSpot : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the UI in the scene that shows the current probabilities
+    /// Updates the UI in the scene that shows the current probabilities.
     /// </summary>
     private void UpdateTextUI()
     {
@@ -140,25 +140,21 @@ public class HidingSpot : MonoBehaviour
                 textBox.text = $"{Probability}";
     }
 
-    // Drawing the probability of the AI to choose the HidingSpot and the players probability to choose the same HidingSpot 
-    //private void OnDrawGizmos()
-    //{
-    //    if(Type != TypeOfObject.PLACE)
-    //        DrawString($"{Probability} : {PlayerProbability}", transform.position + (Vector3.up * 3), Color.blue); // Drawing the current probability of the HidingSpot and the player probability of choosing the HidingSpot 
-    //    else
-    //        DrawString($"{Probability}", transform.position + Vector3.up, Color.blue); // Drawing the current probability of the place
-    //}
+    /// <summary>
+    /// Disables the UI of the hiding spot
+    /// </summary>
+    public void DisableUI()
+    {
+        if (textCanvas != null)
+            textCanvas.gameObject.SetActive(false);
+    }
 
-    //static void DrawString(string text, Vector3 worldPos, Color? colour = null)
-    //{
-    //    UnityEditor.Handles.BeginGUI();
-    //    if (colour.HasValue) GUI.color = colour.Value;
-    //    var view = UnityEditor.SceneView.currentDrawingSceneView;
-    //    Vector3 screenPos = view.camera.WorldToScreenPoint(worldPos);
-    //    Vector2 size = GUI.skin.label.CalcSize(new GUIContent(text));
-    //    GUI.Label(new Rect(screenPos.x - (size.x / 2), -screenPos.y + view.position.height + 4, size.x, size.y), text);
-    //    UnityEditor.Handles.EndGUI();
-    //}
-    // Source for the above function: https://gist.github.com/Arakade/9dd844c2f9c10e97e3d0
-
+    /// <summary>
+    /// Enables the UI of the hiding spot
+    /// </summary>
+    public void EnableUI()
+    {
+        if(textCanvas != null)
+            textCanvas.gameObject.SetActive(true);
+    }
 }

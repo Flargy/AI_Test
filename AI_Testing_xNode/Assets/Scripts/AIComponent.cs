@@ -11,7 +11,8 @@ public class AIComponent : MonoBehaviour
     public BehaviourTreeType behaviourTreeType; // The type of behavior tree this agent will be seen as
     public GameObject target; // The target of the agent, in this case the player
     public bool playerFound = false; // a boolean to keep track of whether it has found the player or not
-    public DecisionNode recentNode = null; // The current decision node representing the area to investigate
+    public DecisionNode RecentNode = null; // The current decision node representing the area to investigate
+    public DecisionNode ParentNode = null;
 
 
     NavMeshAgent navAgent; // The navmeshagent connected to the object

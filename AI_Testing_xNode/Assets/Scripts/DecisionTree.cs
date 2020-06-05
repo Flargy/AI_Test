@@ -23,7 +23,6 @@ public class DecisionTree
             DecisionNode Cnode = node.GetChild(hidingSpot);
             if (Cnode != null)
             {
-
                 return Cnode;
             }
         }

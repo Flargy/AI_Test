@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class DecisionNode
@@ -78,11 +79,13 @@ public class DecisionNode
     {
         DecisionNode currentBest = null;
         List<DecisionNode> sameNodes = new List<DecisionNode>();
-
+        DecisionNode nodeToRemove = null;
         foreach(DecisionNode node in Children)
         {
             if (node.Children == null || node.Children.Count == 0)
+            {
                 continue;
+            }
 
             if(currentBest == null || currentBest.Spot.Probability < node.Spot.Probability)
             {
@@ -108,7 +111,9 @@ public class DecisionNode
     {
         if (Children == null)
         {
+            Spot.DisableUI();
             Parent.Children.Remove(this);
+            Debug.LogWarning("this should not happen");
             return null;
         }
 

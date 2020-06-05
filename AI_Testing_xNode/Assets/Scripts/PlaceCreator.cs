@@ -80,7 +80,7 @@ public class PlaceCreator : MonoBehaviour
         foreach (BoxCollider place in places)
         {
             HidingSpot placeSpot = place.transform.GetComponent<HidingSpot>();
-
+            placeSpot.EnableUI();
             placeSpot.ID = placeSpot.name.GetHashCode();
             DecisionNode node = DecisionNode.CreateChild(Tree.RootNode, placeSpot, TypeOfObject.PLACE);
             Collider[] hidingSpots = Physics.OverlapBox(place.bounds.center, place.bounds.size / 2, Quaternion.identity, HidingLayer);
@@ -90,9 +90,9 @@ public class PlaceCreator : MonoBehaviour
             {
                 HidingSpot hSpot = spot.GetComponent<HidingSpot>();
                 hSpot.ID = hSpot.transform.position.GetHashCode();
-                DecisionNode newSpot = DecisionNode.CreateChild(node, hSpot, TypeOfObject.PLACE);
-                //node.Children.Add(newSpot);
+                DecisionNode.CreateChild(node, hSpot, TypeOfObject.PLACE);
 
+                hSpot.EnableUI();
                 HidingSpots.Add(hSpot);
                 
             }

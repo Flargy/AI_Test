@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEngine;
-
-
+﻿using System.Diagnostics;
 /// <summary>
 /// Fetches a <see cref="DecisionNode"/> from <see cref="PlaceCreator.Instance"/> and sets that as the agents new destination
 /// <para>Removes a node once it has been explored</para>
@@ -17,20 +11,39 @@ public class BTSelectHidingSpot : BTNode
     {
         if (context.agent.pathPending == false && context.agent.hasPath == false)
         {
-            if(context.contextOwner.recentNode != null)
+            // Prunes the recentNode and sents a new one. Also prunes the parent of recentNode if it has no children.
+            if(context.contextOwner.RecentNode != null)
             {
-                DecisionNode parent = context.contextOwner.recentNode.Parent;
-                context.contextOwner.recentNode.Parent.Children.Remove(context.contextOwner.recentNode);
-                if(parent.Children.Count == 0)
+                context.contextOwner.ParentNode = context.contextOwner.RecentNode.Parent;
+                context.contextOwner.RecentNode.Spot.DisableUI();
+                context.contextOwner.RecentNode.Parent.Children.Remove(context.contextOwner.RecentNode);
+
+                if(context.contextOwner.ParentNode.Children.Count == 0)
                 {
-                    parent.Parent.Children.Remove(parent);
+                    context.contextOwner.ParentNode.Spot.DisableUI();
+                    context.contextOwner.ParentNode.Parent.Children.Remove(context.contextOwner.ParentNode);
+                    context.contextOwner.ParentNode = null;
                 }
             }
 
-            DecisionNode node = PlaceCreator.Instance.GetNextHidingSpot();
-            context.contextOwner.recentNode = node;
-            context.contextOwner.destination = node.Spot.transform.position;
-            context.agent.SetDestination(node.Spot.transform.position);
+            // Checks if the parentNode has not yet been fully explored, and if it has not been choose the next hiding spot from the parent.
+            // Otherwise select new hiding spot from the whole decision tree.
+            if(context.contextOwner.ParentNode != null)
+            {
+                DecisionNode node = context.contextOwner.ParentNode.GetRandomHidingSpot();
+                context.contextOwner.RecentNode = node;
+                context.contextOwner.destination = node.Spot.transform.position;
+                context.agent.SetDestination(node.Spot.transform.position);
+            }
+            else
+            {
+                DecisionNode node = PlaceCreator.Instance.GetNextHidingSpot();
+                context.contextOwner.RecentNode = node;
+                context.contextOwner.destination = node.Spot.transform.position;
+                context.agent.SetDestination(node.Spot.transform.position);
+                context.contextOwner.ParentNode = node.Parent;
+            }
+           
 
             return BTResult.SUCCESS;
         }

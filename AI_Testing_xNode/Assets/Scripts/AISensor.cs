@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using System;
-using System.Net.NetworkInformation;
+using System.Runtime.Remoting.Contexts;
 
 [Serializable]
 public class AISensor
@@ -12,8 +10,7 @@ public class AISensor
     public float stopSearchTime; // The amount of time the agent will search for the player after losing them in a chase
     public float visionAngle = 60; // The vision angle forward of the agent
     public float visionDistance = 20; // The distance of which the agent can see
-    const float MAX_RADIUS = 2.5f; // The max radius of which it stores data around after finding the player
-    //internal Vector3 lastTargetPosition = Vector3.zero;
+    const float MAX_RADIUS = 3f; // The max radius of which it stores data around after finding the player
 
     NavMeshAgent agent; // Reference to the NavMeshAgent
     AIComponent aiComponent; // Reference to the AIComponent
@@ -87,12 +84,12 @@ public class AISensor
         {
             targetFound = true;
             Collider[] nearbySpots = Physics.OverlapSphere(aiComponent.target.transform.position, MAX_RADIUS, PlaceCreator.Instance.HidingLayer);
-            PlaceCreator.Instance.Tree.GetDecisionNode(nearbySpots[0].GetComponent<HidingSpot>()).Parent.Spot.UpdateProbability(3); // Increases the probability that the agent will search the zone in the next try.
-
+            aiComponent.ParentNode.Spot.UpdateProbability(3);  // Increases the probability that the agent will search the zone in the next try.
+            
             // Increases the probability that the agent searches the hiding spots near where the player was found.
             foreach (Collider item in nearbySpots)
             {
-                item.GetComponent<HidingSpot>().UpdateProbability(aiComponent.target.transform.position);
+                item.GetComponent<HidingSpot>().UpdateProbability(aiComponent.target.transform.position, MAX_RADIUS);
             }
 
             EventController.current.LowerProbability(); // Lowers the probability of all other
@@ -103,6 +100,10 @@ public class AISensor
             agent.Warp(aiComponent.startPosition);
             agent.ResetPath();
             targetFound = false;
+
+            aiComponent.ParentNode = null;
+            aiComponent.RecentNode = null;
+            aiComponent.destination = Vector3.zero;
         }
     }
 
