@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿// Marcus Lundqvist
+// Niclas Älmeby
+
+using System.Diagnostics;
 /// <summary>
 /// Fetches a <see cref="DecisionNode"/> from <see cref="PlaceCreator.Instance"/> and sets that as the agents new destination
 /// <para>Removes a node once it has been explored</para>
@@ -9,7 +12,7 @@ public class BTSelectHidingSpot : BTNode
     
     public override BTResult Execute()
     {
-        if (context.agent.pathPending == false && context.agent.hasPath == false)
+        if (context.agent.pathPending == false && context.agent.hasPath == false) // CHecks if the agent doesn't have a path
         {
             // Prunes the recentNode and sents a new one. Also prunes the parent of recentNode if it has no children.
             if(context.contextOwner.RecentNode != null)

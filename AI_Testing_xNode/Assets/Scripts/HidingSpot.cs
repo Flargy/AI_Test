@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Marcus Lundqvist
+// Niclas Älmeby
+
+using System;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;

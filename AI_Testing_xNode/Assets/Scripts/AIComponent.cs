@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Marcus Lundqvist
+//Niclas Älmeby
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -46,7 +49,6 @@ public class AIComponent : MonoBehaviour
         startPosition = transform.position;
         sensor.Initialize(this, navAgent);
         BehaviourTreeRuntimeData.RegisterAgentContext(behaviourTreeType, aiContext);
-        Time.timeScale = 2;
     }
 
     /// <summary>

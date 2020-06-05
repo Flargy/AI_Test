@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//Niclas Älmeby
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// Marcus Lundqvist
+// Niclas Älmeby
+
+using UnityEngine;
 using UnityEngine.AI;
 using System;
 using System.Runtime.Remoting.Contexts;
