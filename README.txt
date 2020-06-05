@@ -29,3 +29,10 @@ Det går att ändra hastigheten på simulationen genom att dra slidern som finns
 
 Simulationen forstätter hur länge som helst. När AI:n hittar spelaren så uppdateras alla värden, spelaren väljer
 ett nytt gömställe och simulationen börjar om.
+
+--------------------
+
+Problembeskrivningen för denna uppgift är hur man kan skapa en AI agent som använder sig av ett behavior tree och decision tree som arbetar tillsammans.
+Information om behavior tree hittades online då kurslitteraturen inte tar upp det.
+Decision tree informaiton togs från kurslitteraturen från följande stycke:
+Russel and Norvig (2010). Artificial Intelligence: A Modern Approach, 3rd edition. Chapter 18 "Learning from examples", Section 3" p. 697
